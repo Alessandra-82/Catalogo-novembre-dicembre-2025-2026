@@ -4,19 +4,87 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Catalogo interattivo</title>
+
   <style>
     html, body {
       margin: 0;
       height: 100%;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
     }
+
+    #toolbar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+    }
+
+    button {
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    #counter {
+      margin-left: auto;
+      font-size: 14px;
+      opacity: .7;
+    }
+
     iframe {
       width: 100%;
-      height: 100vh;
+      height: calc(100vh - 44px);
       border: 0;
     }
   </style>
 </head>
+
 <body>
-  <iframe src="OEBPS/page001.xhtml"></iframe>
+  <div id="toolbar">
+    <button onclick="prev()">◀ Indietro</button>
+    <button onclick="next()">Avanti ▶</button>
+    <span id="counter"></span>
+  </div>
+
+  <iframe id="viewer"></iframe>
+
+  <script>
+    // 👉 elenco delle pagine (in ordine)
+    const pages = [
+      "OEBPS/page001.xhtml",
+      "OEBPS/page002.xhtml",
+      "OEBPS/page003.xhtml",
+      "OEBPS/page004.xhtml",
+      "OEBPS/page005.xhtml"
+    ];
+
+    let current = 0;
+    const iframe = document.getElementById("viewer");
+    const counter = document.getElementById("counter");
+
+    function load() {
+      iframe.src = pages[current];
+      counter.textContent = `Pagina ${current + 1} / ${pages.length}`;
+    }
+
+    function next() {
+      if (current < pages.length - 1) {
+        current++;
+        load();
+      }
+    }
+
+    function prev() {
+      if (current > 0) {
+        current--;
+        load();
+      }
+    }
+
+    // carica la prima pagina (Start)
+    load();
+  </script>
 </body>
 </html>
